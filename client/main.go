@@ -5,16 +5,22 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"time"
 )
 
 func main() {
 	urls := []string{
-		"http://server-ip:8080",
-		"http://server-service:8080",
-		"http://server-route:8080",
+		os.Getenv("SERVER_IP_URL"),
+		os.Getenv("SERVER_SERVICE_URL"),
+		os.Getenv("SERVER_ROUTE_URL"),
 	}
 
 	for _, url := range urls {
+		if url == "" {
+			continue
+		}
+
 		fmt.Printf("Trying URL: %s\n", url)
 		response, err := http.Get(url)
 		if err != nil {
